@@ -44,4 +44,6 @@ public class Job extends AbstractEntity{
     public void setSkills(List<Skill> skillObjs) {
         skills.addAll(skillObjs);
     }
+
+    public void setSingleSkill(Skill aSkill) {skills.add(aSkill);}
 }

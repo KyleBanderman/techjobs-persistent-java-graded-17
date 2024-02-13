@@ -35,7 +35,7 @@ public class HomeController {
     public String index(Model model) {
 
         model.addAttribute("title", "MyJobs");
-      //  model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("jobs", jobRepository.findAll());
         return "index";
     }
 
@@ -58,15 +58,22 @@ public class HomeController {
             if (employerRepository.findById(employerId).isPresent()) {
                 newJob.setEmployer(employerRepository.findById(employerId).get());
             }
+            for (Integer item : skills) {
+                if (skillRepository.findById(item).isPresent()) {
+                    newJob.setSingleSkill(skillRepository.findById(item).get());
+                }
+            }
         }
         model.addAttribute("employers", employerRepository.findAll());
         jobRepository.save(newJob);
         return "redirect:";
     }
-//TODO: check employer controller and this controller for similarities on employerRepository
+
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {
-
+        if (jobRepository.findById(jobId).isPresent()) {
+            model.addAttribute("job", jobRepository.findById(jobId).get());
+        }
             return "view";
     }
 
